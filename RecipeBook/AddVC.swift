@@ -26,9 +26,9 @@ class AddVC: UIViewController {
         
         print("Add VC has loaded. It contains \(recipeToImport.title).")
         
-        if recipeToImport.title == "Pending" || recipeToImport.title == "" {
+        if recipeToImport.title == "" {
             self.newEditRecipe.title = "New Recipe"
-            self.addEditPicture.text = "Add Picture"
+            self.addEditPicture.text = "Set Picture"
             self.nameField.text = ""
             self.ingredientsField.text = ""
             self.recipeImage.image = UIImage(named: "defaultImage")
@@ -59,14 +59,12 @@ class AddVC: UIViewController {
         }
     }
     
-    @IBAction func nameFieldEdited(_ sender: UITextField) {
+    @IBAction func nameFieldEditingChanged(_ sender: UITextField) {
         recipeToImport.title = nameField.text!
-        print("nameFieldEdited")
     }
-
-    @IBAction func ingredientsFieldEdited(_ sender: UITextField) {
+    
+    @IBAction func ingredientsFieldEditingChanged(_ sender: UITextField) {
         recipeToImport.ingredients = ingredientsField.text!
-        print("ingredientsFieldEdited")
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
@@ -83,6 +81,7 @@ class AddVC: UIViewController {
             recipeToImport.title = sourceVC.recipeToImport.title
             recipeToImport.ingredients = sourceVC.recipeToImport.ingredients
             recipeToImport.imageURL = sourceVC.recipeToImport.imageURL
+            recipeToImport.href = sourceVC.recipeToImport.href
             
             reloadFields()
             

@@ -22,7 +22,7 @@ class ImportVC: UIViewController {
         
         print("Import VC has loaded.")
         
-        recipeToImport.title = "Pending"
+        recipeToImport = Recipes()
         
         tableview.delegate = self
         tableview.dataSource = self
@@ -73,10 +73,17 @@ extension ImportVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         recipeToImport.title = recipeToImport.searchArray[indexPath.row].title
         recipeToImport.ingredients = recipeToImport.searchArray[indexPath.row].ingredients
+        
         if recipeToImport.searchArray[indexPath.row].thumbnail.characters.count > 0 {
             recipeToImport.imageURL = recipeToImport.searchArray[indexPath.row].thumbnail
         } else {
             recipeToImport.imageURL = "defaultImage"
+        }
+        
+        if recipeToImport.searchArray[indexPath.row].href.characters.count > 0 {
+            recipeToImport.href = recipeToImport.searchArray[indexPath.row].href
+        } else {
+            recipeToImport.href = "Not Available"
         }
 
     }

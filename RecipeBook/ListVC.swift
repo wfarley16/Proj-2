@@ -40,18 +40,23 @@ class ListVC: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToAddVC" {
+        
+        if segue.identifier == "ToEdit" {
+            let targetVC = segue.destination as! AddVC
+            let selectedRow = tableView.indexPathForSelectedRow!
+            targetVC.recipeToImport = recipesArray[selectedRow.row]
+        }
+        
+        if segue.identifier == "ToAdd" {
+            
+            if let selectedRow = tableView.indexPathForSelectedRow {
+                tableView.deselectRow(at: selectedRow, animated: true)
+            }
+            
             let destVC = segue.destination as! UINavigationController
             let targetVC = destVC.topViewController as! AddVC
-            
-            if index == -1 {
-                if let selectedRow = tableView.indexPathForSelectedRow {
-                    tableView.deselectRow(at: selectedRow, animated: true)
-                }
-                targetVC.recipeToImport.title = ""
-            } else {
-                targetVC.recipeToImport = recipesArray[index]
-            }
+            targetVC.recipeToImport = Recipes()
+            targetVC.recipeToImport.title = ""
         }
         
     }
@@ -63,12 +68,15 @@ class ListVC: UIViewController {
         newRecipe.title = sourceVC.recipeToImport.title
         newRecipe.ingredients = sourceVC.recipeToImport.ingredients
         newRecipe.imageURL = sourceVC.recipeToImport.imageURL
+        newRecipe.href = sourceVC.recipeToImport.href
         
         if newRecipe.imageURL.characters.count == 0 {
             newRecipe.imageURL = "defaultImage"
         }
         
-        print("New Recipe Title: \(newRecipe.title)")
+        if newRecipe.href.characters.count == 0 {
+            newRecipe.href = "Not Available"
+        }
         
         if let selectedRow = tableView.indexPathForSelectedRow {
             recipesArray[selectedRow.row] = newRecipe
@@ -82,9 +90,6 @@ class ListVC: UIViewController {
         tableView.reloadData()
     }
 
-    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "ToAddVC", sender: nil)
-    }
 }
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
@@ -100,12 +105,11 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 120
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         index = indexPath.row
-        performSegue(withIdentifier: "ToAddVC", sender: nil)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

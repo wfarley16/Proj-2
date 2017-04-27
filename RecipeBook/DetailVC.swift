@@ -12,27 +12,36 @@ class DetailVC: UIViewController {
     
     var pickerIndex = 0
     var recipesArray = [Recipes]()
-
+    var ingredientsArray = [String]()
+    
     @IBOutlet weak var recipeImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
+    @IBOutlet weak var linkButton: UIButton!
     @IBOutlet weak var recipePicker: UIPickerView!
-    
-    var defaultsData = UserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("Detail VC Loaded. recipesArray.count = \(recipesArray.count)")
-                
+        recipePicker.delegate = self
+        recipePicker.dataSource = self
+        
+        if let recipesDefaultsData = UserDefaults.standard.object(forKey: "recipeData") as? Data {
+            if let recipesDefaultsArray = NSKeyedUnarchiver.unarchiveObject(with: recipesDefaultsData) as? [RecipesUserDefaults] {
+                recipesArray = recipesDefaultsArray as! [Recipes]
+            } else {
+                print("Error creating array")
+            }
+        } else {
+            print("Error loading data")
+        }
+        
         if recipesArray.count == 0 {
             performSegue(withIdentifier: "ToListVC", sender: nil)
         } else {
             refreshUI()
         }
-        
-        recipePicker.delegate = self
-        recipePicker.dataSource = self
+
     }
     
     func refreshUI() {
@@ -53,23 +62,50 @@ class DetailVC: UIViewController {
         titleLabel.text = recipesArray[pickerIndex].title
         ingredientsLabel.text = recipesArray[pickerIndex].ingredients
         
+        print(recipesArray[pickerIndex].href)
+        
+        if recipesArray[pickerIndex].href == "Not Available" {
+            linkButton.isHidden = true
+        } else {
+            linkButton.isHidden = false
+            linkButton.setTitle(recipesArray[pickerIndex].href, for: .normal)
+        }
+        
         recipePicker.reloadAllComponents()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "ToListVC" {
             let destVC = segue.destination as! UINavigationController
             let targetVC = destVC.topViewController as! ListVC
             targetVC.recipesArray = recipesArray
         }
+        
+        if segue.identifier == "ToFridgeVC" {
+            let destVC = segue.destination as! FridgeVC
+            destVC.ingredientsArray = ingredientsArray
+        }
+        
     }
     
-    @IBAction func unwindFromListVC(sender: UIStoryboardSegue) {
-        let sourceVC = sender.source as! ListVC
-        recipesArray = sourceVC.recipesArray
+    @IBAction func unwindToDetailVC(sender: UIStoryboardSegue) {
+        
+        if let sourceVC = sender.source as? ListVC {
+            recipesArray = sourceVC.recipesArray
+        }
+        
+        if let sourceVC = sender.source as? FridgeVC {
+            ingredientsArray = sourceVC.ingredientsArray
+        }
+        
         refreshUI()
     }
 
+    @IBAction func linkButtonPressed(_ sender: UIButton) {
+        UIApplication.shared.openURL(URL(string: recipesArray[pickerIndex].href)!)
+    }
+    
 }
 
 extension DetailVC: UIPickerViewDelegate, UIPickerViewDataSource {

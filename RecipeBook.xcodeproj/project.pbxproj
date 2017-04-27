@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		92A1A10BF49A9D6E8384155A /* Pods_RecipeBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C35F671C066DEF41A557F /* Pods_RecipeBook.framework */; };
 		980352A71EABF7D800EA2AA2 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980352A61EABF7D800EA2AA2 /* RecipeCell.swift */; };
+		983131C51EB06930003DE13E /* FridgeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983131C41EB06930003DE13E /* FridgeVC.swift */; };
 		984EB11E1EABF581009EC020 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984EB11D1EABF581009EC020 /* DetailVC.swift */; };
 		98742F251EABF2CD00803216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98742F241EABF2CD00803216 /* AppDelegate.swift */; };
 		98742F271EABF2CD00803216 /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98742F261EABF2CD00803216 /* ListVC.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		980352A61EABF7D800EA2AA2 /* RecipeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
+		983131C41EB06930003DE13E /* FridgeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FridgeVC.swift; sourceTree = "<group>"; };
 		984EB11D1EABF581009EC020 /* DetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		98742F211EABF2CD00803216 /* RecipeBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecipeBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98742F241EABF2CD00803216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				98742F261EABF2CD00803216 /* ListVC.swift */,
 				988E19FC1EACFBF1003917FA /* AddVC.swift */,
 				988E19FE1EACFEA2003917FA /* ImportVC.swift */,
+				983131C41EB06930003DE13E /* FridgeVC.swift */,
 				98742F281EABF2CD00803216 /* Main.storyboard */,
 				98742F2B1EABF2CD00803216 /* Assets.xcassets */,
 				98742F2D1EABF2CD00803216 /* LaunchScreen.storyboard */,
@@ -238,6 +241,7 @@
 				98742F371EABF38D00803216 /* Recipes.swift in Sources */,
 				980352A71EABF7D800EA2AA2 /* RecipeCell.swift in Sources */,
 				98742F251EABF2CD00803216 /* AppDelegate.swift in Sources */,
+				983131C51EB06930003DE13E /* FridgeVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,9 @@ class RecipesUserDefaults: NSObject, NSCoding {
     var title = ""
     var ingredients = ""
     var imageURL = ""
+    var href = ""
+    
+    var availableIngredients = [String]()
     
     override init() {
         super.init()
@@ -23,12 +26,16 @@ class RecipesUserDefaults: NSObject, NSCoding {
         title = aDecoder.decodeObject(forKey: "title") as! String
         ingredients = aDecoder.decodeObject(forKey: "ingredients") as! String
         imageURL = aDecoder.decodeObject(forKey: "imageURL") as! String
+        href = aDecoder.decodeObject(forKey: "href") as! String
+        availableIngredients = aDecoder.decodeObject(forKey: "availableIngredients") as! [String]
     }
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(title, forKey: "name")
-        aCoder.encode(ingredients, forKey: "coordinates")
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(ingredients, forKey: "ingredients")
         aCoder.encode(imageURL, forKey: "imageURL")
+        aCoder.encode(href, forKey: "href")
+        aCoder.encode(availableIngredients, forKey: "availableIngredients")
     }
     
 }
@@ -40,6 +47,7 @@ class Recipes: RecipesUserDefaults {
         var title: String
         var ingredients: String
         var thumbnail: String
+        var href: String
     }
     
     var searchArray = [GenericRecipe]()
@@ -76,8 +84,8 @@ class Recipes: RecipesUserDefaults {
                         let title = json["results"][i]["title"].stringValue
                         let ingredients = json["results"][i]["ingredients"].stringValue
                         let thumbnail = json["results"][i]["thumbnail"].stringValue
-                        print("#\(i): Title is \(title). Ingredients are \(ingredients). The thumbnail is at \(thumbnail)")
-                        self.searchArray.append(GenericRecipe(title: title, ingredients: ingredients, thumbnail: thumbnail))
+                        let href = json["results"][i]["href"].stringValue
+                        self.searchArray.append(GenericRecipe(title: title, ingredients: ingredients, thumbnail: thumbnail, href: href))
                     }
                 }
             case .failure(let error):
